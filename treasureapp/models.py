@@ -5,20 +5,29 @@ class Account(models.Model):
     """
     An account represents a real-world source of money
 
+    name - A name for the account
     balance - Amount of money in the account
     """
-    # TODO: break out where account max is defined
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
+
+    name = models.CharField(max_length = 200)
+    balance = models.DecimalField(max_digits = 10, decimal_places = 2)
+
+    def __unicode__(self):
+        return self.name
 
 class Transaction(models.Model):
     """
     A transaction object represents money entering or exiting an account
 
-    account - The account the transaction belongs to
+    from_acct - The account the transaction is coming out of
+    to_acct - The account the transaction is going into
     owner - The group performing the transaction
     amount - Change in account balance
+    description - An optional description of the account balance
     """
-    account = models.ForeignKey(Account)
+
+    from_acct = models.ForeignKey(Account, related_name='from_acct')
+    to_acct = models.ForeignKey(Account, related_name='to_acct')
     owner = models.ForeignKey(Group)
-    # TODO: break out constants
-    balance = models.DecimalField(max_digits=6, decimal_places=2)
+    amount = models.DecimalField(max_digits = 6, decimal_places = 2)
+    description = models.TextField(blank=True)
