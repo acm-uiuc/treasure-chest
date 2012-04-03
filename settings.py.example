@@ -43,6 +43,9 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
+# Root for site assets. TODO: Set this for your local settings.py
+ASSETS_ROOT = ''
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = ''
