@@ -2,14 +2,41 @@
 <html>
 
 <head>
-	<title>{% block title %}{% endblock %}</title>
-	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-responsive.css">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-responsive.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
 </head>
 
 <body>
-	{% block content %}
-	{% endblock %}
+    <!-- Site header -->
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="{% url index %}">Treasure Chest</a>
+                <ul class="nav">
+                    <li class="active">
+                    <a href="{% url index %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url account_list %}">Accounts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- END site header -->
+
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
 </body>
 
 </html>

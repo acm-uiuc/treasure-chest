@@ -8,3 +8,11 @@ def index(request):
 
     context = RequestContext(request, {})
     return render_to_response("index.html", context)
+
+def accounts(request):
+    context = RequestContext(request, {})
+    return render_to_response("index.html", context)
+
+def account_detail(request):
+    context = RequestContext(request, {})
+    return render_to_response("index.html", context)

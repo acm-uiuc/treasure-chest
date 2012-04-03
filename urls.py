@@ -6,9 +6,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('treasureapp.views',
     # Treasureapp URLs
-    url(r'^/account/(?P<account_id>\d+)$', 'account_detail'),
-    url(r'^/account/$', 'accounts'),
-    url(r'^$', 'index'),
+    url(r'^/account/(?P<account_id>\d+)$', 'account_detail', {}, 'account_detail'),
+    url(r'^/account/$', 'accounts', {}, 'account_list'),
+    url(r'^$', 'index', {}, 'index'),
 )
 
 urlpatterns += patterns('',
