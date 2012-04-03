@@ -3,11 +3,14 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'treasure_chest.views.home', name='home'),
-    # url(r'^treasure_chest/', include('treasure_chest.foo.urls')),
+urlpatterns = patterns('treasureapp.views',
+    # Treasureapp URLs
+    url(r'^/account/(?P<account_id>\d+)$', 'account_detail'),
+    url(r'^/account/$', 'accounts'),
+    url(r'^$', 'index'),
+)
 
+urlpatterns += patterns('',
     # Administration controls
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
