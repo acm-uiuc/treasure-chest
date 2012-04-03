@@ -23,7 +23,7 @@ class Transaction(models.Model):
     to_acct - The account the transaction is going into
     owner - The group performing the transaction
     amount - Change in account balance
-    description - An optional description of the account balance
+    description - An optional description of the transaction
     """
 
     from_acct = models.ForeignKey(Account, related_name='from_acct')
@@ -31,3 +31,12 @@ class Transaction(models.Model):
     owner = models.ForeignKey(Group)
     amount = models.DecimalField(max_digits = 6, decimal_places = 2)
     description = models.TextField(blank=True)
+
+    def __unicode__(self):
+        strout = self.from_acct.__unicode__() \
+               + " to "                       \
+               + self.to_acct.__unicode__()   \
+               + " for "                      \
+               + str(self.amount)
+
+        return strout
