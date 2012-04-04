@@ -6,14 +6,34 @@ class Account(models.Model):
     An account represents a real-world source of money
 
     name - A name for the account
-    balance - Amount of money in the account
     """
 
     name = models.CharField(max_length = 200)
-    balance = models.DecimalField(max_digits = 10, decimal_places = 2)
 
     def __unicode__(self):
         return self.name
+
+    def get_balance(self):
+        """
+        Calculate the balance for the account.
+
+        Iterates through all transactions in the account to compute the
+        available account balance.
+
+        Returns the current account balance.
+        """
+        balance = 0
+        for transaction in Transaction.objects.all():
+            amount = transaction.amount
+
+            # Subtract for transactions out, add for transactions in
+            if transaction.from_acct == self:
+                balance -= amount
+            # In case of from_acct == to_acct, balance is unchanged
+            if transaction.to_acct == self:
+                balance += amount
+
+        return balance
 
 class Transaction(models.Model):
     """
