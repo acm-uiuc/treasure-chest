@@ -6,9 +6,11 @@ class Account(models.Model):
     An account represents a real-world source of money
 
     name - A name for the account
+    balance - Cached balance for the account
     """
 
     name = models.CharField(max_length = 200)
+    balance = models.DecimalField(max_digits = 30, decimal_places = 2)
 
     def __unicode__(self):
         return self.name
@@ -32,6 +34,9 @@ class Account(models.Model):
             # In case of from_acct == to_acct, balance is unchanged
             if transaction.to_acct == self:
                 balance += amount
+
+        # Update the cached balance
+        self.balance = balance
 
         return balance
 
