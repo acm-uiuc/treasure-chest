@@ -6,13 +6,22 @@ class Account(models.Model):
     An account represents a real-world source of money
 
     name - A name for the account
+    description - An optional memo for the account
     balance - Cached balance for the account
     """
 
     name = models.CharField(max_length = 200)
-    balance = models.DecimalField(max_digits = 30, decimal_places = 2)
+    description = models.TextField(blank=True)
+    balance = models.DecimalField(max_digits = 30, decimal_places = 2,
+            blank=True)
 
     def __unicode__(self):
+        """
+        Return a unicode representation of an account object.
+
+        Returns a unicode string containing the account name.
+        """
+
         return self.name
 
     def get_balance(self):
@@ -24,6 +33,7 @@ class Account(models.Model):
 
         Returns the current account balance.
         """
+
         balance = 0
         for transaction in Transaction.objects.all():
             amount = transaction.amount
@@ -58,6 +68,13 @@ class Transaction(models.Model):
     description = models.TextField(blank=True)
 
     def __unicode__(self):
+        """
+        Return a unicode representation of a transaction object.
+
+        Returns a unicode string of the form "Transaction from <account>
+            to <account> for <amount>".
+        """
+
         strout = self.from_acct.__unicode__() \
                + " to "                       \
                + self.to_acct.__unicode__()   \
