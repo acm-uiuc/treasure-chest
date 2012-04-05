@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Treasure Chest | Transactions{% endblock %}
+
+{% block content %}
+
+<h1>Transactions</h1>
+
+{% if transaction_list %}
+
+{% else %}
+
+<!-- Page called without any transactions passed through -->
+
+<h3>No transactions found. Why don't you make one?</h3>
+
+{% endif %}
+
+<!-- Controls to make a new transaction -->
+
+
+
+{% endblock %}

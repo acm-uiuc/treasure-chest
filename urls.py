@@ -6,8 +6,21 @@ admin.autodiscover()
 
 urlpatterns = patterns('treasureapp.views',
     # Treasureapp URLs
+
+    # Account management URLs
+    url(r'^account/(?P<account_id>\d+)/update$', 'account_update', {}, 'account_update'),
     url(r'^account/(?P<account_id>\d+)$', 'account_detail', {}, 'account_detail'),
+    url(r'^account/new$', 'account_create', {}, 'account_create'),
     url(r'^account/$', 'account_list', {}, 'account_list'),
+
+    # Transaction managment URLs
+    url(r'^transaction/(?P<transaction_id>\d+)/update$', 'transaction_update', {}, 'transaction_update'),
+    url(r'^transaction/(?P<transaction_id>\d+)$', 'transaction_detail', {}, 'transaction_detail'),
+    url(r'^transaction/new$', 'transaction_create', {}, 'transaction_create'),
+    url(r'^transaction/$', 'transaction_list', {}, 'transaction_list'),
+
+    # Site standard content URLs
+    url(r'^help$', 'help', {}, 'help'),
     url(r'^$', 'index', {}, 'index'),
 )
 

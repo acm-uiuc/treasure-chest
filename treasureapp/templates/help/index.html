@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Treasure Chest | Help{% endblock %}
+
+{% block content %}
+
+<h1>Site Help</h1>
+
+<h2>Creating an Account</h2>
+
+<p>
+An <em>account</em> is a virtual representation of money organization.
+Accounts may exist in the real world, they may be virtual accounts
+(such as money allocated or equity), or they may be invoice accounts
+(accounts payable and recievable).
+</p>
+
+<p>
+You are free to use accounts however you like to structure things in
+whatever manner seems appropriate to your organization. To manage accounts,
+go to the accounts tab.
+</p>
+
+<h2>Creating a Transaction</h2>
+
+<p>
+To move money between (or into) accounts, you need a <em>transaction</em>.
+Transactions are entites representing the transfer of cash from one account
+to another, and the only way to update account balances. In proper
+double-entry booking style, any transaction must have both an account
+it comes out of and an account it goes into. It is appropriate to maintain
+"external" accounts like income, expenditure, and equity accounts to
+represent money leaving and entering the organization.
+</p>
+
+<p>
+To manage transactions, go to the transactions tab.
+</p>
+
+{% endblock %}

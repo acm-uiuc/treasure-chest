@@ -3,5 +3,19 @@
 {% block title %}Treasure Chest{% endblock %}
 
 {% block content %}
-<h1>Hello, World</h1>
+
+<div class="hero-unit">
+    <h1>Treasure Chest</h1>
+    <p>
+    ACM Treasure Chest is a solution for managing orginization treasuries.
+    You're currently on a development/testing instance. Go ahead:
+    </p>
+
+    <p>
+    <a href="{% url account_list %}" class="btn btn-primary btn-large">
+        Go to Accounts
+    </a>
+    </p>
+</div>
+
 {% endblock %}

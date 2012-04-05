@@ -21,12 +21,23 @@
             <div class="container">
                 <a class="brand" href="{% url index %}">Treasure Chest</a>
                 <ul class="nav">
-                    <li class="active">
-                    <a href="{% url index %}">Home</a>
+                    <!-- Main navigation elements -->
+                    <li {% if section == 'index' %} class="active" {% endif %}>
+                        <a href="{% url index %}">Home</a>
                     </li>
-                    <li>
+
+                    <li {% if section == 'accounts' %} class="active" {% endif %}>
                         <a href="{% url account_list %}">Accounts</a>
                     </li>
+
+                    <li {% if section == 'transactions' %} class="active" {% endif %}>
+                        <a href="{% url transaction_list %}">Transactions</a>
+                    </li>
+
+                    <li {% if section == 'help' %} class="active" {% endif %}>
+                        <a href="{% url help %}">Help</a>
+                    </li>
+
                 </ul>
             </div>
         </div>
