@@ -3,7 +3,7 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 
 from treasureapp.models import Account, Transaction
-from treasureapp.forms import AccountForm
+from treasureapp.forms import AccountForm, TransactionForm
 
 # Basic content handlers
 
@@ -101,8 +101,27 @@ def transaction_list(request):
 def transaction_detail(request):
     pass
 
-def transaction_create(request):
-    pass
+def transaction_create(request, *args, **kargs):
+    """
+    Allow the user to create a new transaction.
+
+    On GET, it will return a form to create a new transaction.
+    On POST, it will use the post data to add a transaction to the database.
+    """
+
+    if request.method == 'POST':
+        transaction_form = TransactionForm(request.POST)
+        if transaction_form.is_valid():
+            transaction = transaction_form.save()
+            return HttpResponseRedirect('/transaction')
+    else:
+        transaction_form = TransactionForm()
+
+    # Update the CSRF token
+    kargs.update(csrf(request))
+    context = RequestContext(request, dict(section="transactions",
+        form=transaction_form, **kargs))
+    return render_to_response("transactions/form.html", context)
 
 def transaction_update(request):
     pass

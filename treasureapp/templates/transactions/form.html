@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block title %}Treasure Chest | Add transaction{% endblock %}
+
+{% block content %}
+
+<h1>Add new transaction</h1>
+
+<form class="well" method="post">
+    {% csrf_token %}
+    {{ form|bootstrap }}
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
