@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.template import RequestContext
 
@@ -62,7 +62,13 @@ def account_create(request, *args, **kargs):
     """
 
     if request.method == 'POST':
-        pass
+        account_form = AccountForm(request.POST)
+        if account_form.is_valid():
+            new_account = account_form.save(commit=False)
+            # Add in an account balance of 0. Always. No exceptions.
+            new_account.balance = 0
+            new_account.save()
+            return HttpResponseRedirect('/account')
     else:
         account_form = AccountForm()
 
