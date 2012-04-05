@@ -24,7 +24,7 @@ class Account(models.Model):
 
         return self.name
 
-    def get_balance(self):
+    def update_balance(self):
         """
         Calculate the balance for the account.
 

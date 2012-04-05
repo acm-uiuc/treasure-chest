@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 from django.utils import unittest
 
 # Import things we need to test
@@ -47,9 +45,9 @@ class AccountTests(unittest.TestCase):
             to_acct=self.account, owner=self.group, amount=3000.00,
             description="Laundering Money")
 
-        acct_computed_balance = self.account.get_balance()
+        acct_computed_balance = self.account.update_balance()
         acct_cached_balance = self.account.balance
-        equi_computed_balance = self.equity.get_balance()
+        equi_computed_balance = self.equity.update_balance()
         equi_cached_balance = self.equity.balance
 
         self.assertEqual(acct_computed_balance, 3800.00)
