@@ -1,7 +1,9 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.core.context_processors import csrf
 from django.template import RequestContext
 
 from treasureapp.models import Account, Transaction
+from treasureapp.forms import AccountForm
 
 # Basic content handlers
 
@@ -51,7 +53,7 @@ def account_detail(request):
     context = RequestContext(request, {"section":"accounts"})
     return render_to_response("accounts/detail.html", context)
 
-def account_create(request):
+def account_create(request, *args, **kargs):
     """
     Allow the user to create a new account.
 
@@ -59,8 +61,16 @@ def account_create(request):
     On POST, it will use the post data to add an account to the database.
     """
 
-    context = RequestContext(request, {"section":"accounts"})
-    return render_to_response("accounts/detail.html", context)
+    if request.method == 'POST':
+        pass
+    else:
+        account_form = AccountForm()
+
+    # Update the CSRF token
+    kargs.update(csrf(request))
+    context = RequestContext(request, dict(section="accounts",
+        form=account_form, **kargs))
+    return render_to_response("accounts/form.html", context)
 
 def account_update(request):
     """
