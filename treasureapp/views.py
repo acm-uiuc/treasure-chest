@@ -92,7 +92,11 @@ def account_update(request):
 # Transaction handlers
 
 def transaction_list(request):
-    pass
+    transaction_list = Transaction.objects.all()
+
+    context = RequestContext(request, {"section":"transactions",
+        "transaction_list":transaction_list})
+    return render_to_response("transactions/list.html", context)
 
 def transaction_detail(request):
     pass

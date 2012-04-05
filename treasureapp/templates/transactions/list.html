@@ -8,6 +8,26 @@
 
 {% if transaction_list %}
 
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>From Account</th>
+            <th>To Account</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for transaction in transaction_list %}
+        <tr>
+            <td>{{ transaction.from_acct }}</td>
+            <td>{{ transaction.to_acct }}</td>
+            <td>{{ transaction.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% else %}
 
 <!-- Page called without any transactions passed through -->
@@ -18,6 +38,10 @@
 
 <!-- Controls to make a new transaction -->
 
-
+<p>
+<a href="{% url transaction_create %}" class="btn btn-primary btn-large">
+    Make new transaction
+</a>
+</p>
 
 {% endblock %}
