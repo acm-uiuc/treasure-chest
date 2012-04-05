@@ -31,6 +31,12 @@ def account_list(request):
     """
 
     account_list = Account.objects.all()
+
+    # TODO: Add signal logic on transaction create so we don't need to do this
+    # Update cached values of accounts
+    for account in account_list:
+        account.update_balance()
+
     context = RequestContext(request, {"section":"accounts",
         "account_list":account_list})
     return render_to_response("accounts/list.html", context)
