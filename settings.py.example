@@ -92,7 +92,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'treasureapp',
     'django.contrib.admin',
     'django.contrib.admindocs',
+
+    'south',
+    'bootstrapform',
+
+    'treasureapp',
 )
