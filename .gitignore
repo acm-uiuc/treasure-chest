@@ -1,3 +1,6 @@
 settings.py
 *.pyc
 *.db
+
+# Virtual environment forlder
+venv
