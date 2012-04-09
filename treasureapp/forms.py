@@ -18,7 +18,7 @@ class TransactionForm(ModelForm):
     """
 
     # Force the decimal number to be positive
-    amount = DecimalField(min_value=0, max_digits=6, decimal_places=2)
+    amount = DecimalField(min_value=0, max_digits=10, decimal_places=2)
 
     class Meta:
         model = Transaction

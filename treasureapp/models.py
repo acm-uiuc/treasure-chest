@@ -64,7 +64,7 @@ class Transaction(models.Model):
     from_acct = models.ForeignKey(Account, related_name='from_acct')
     to_acct = models.ForeignKey(Account, related_name='to_acct')
     owner = models.ForeignKey(Group)
-    amount = models.DecimalField(max_digits = 6, decimal_places = 2)
+    amount = models.DecimalField(max_digits = 10, decimal_places = 2)
     description = models.TextField(blank=True)
 
     def __unicode__(self):
