@@ -70,6 +70,8 @@ def account_create(request, *args, **kargs):
     """
 
     if request.method == 'POST':
+        # If a POST request, try to validate and save the new account
+        # Failures fall through to returning the old form with errors
         account_form = AccountForm(request.POST)
         if account_form.is_valid():
             new_account = account_form.save(commit=False)
@@ -78,6 +80,7 @@ def account_create(request, *args, **kargs):
             new_account.save()
             return HttpResponseRedirect('/account')
     else:
+        # If GET request, return the form to make a new account
         account_form = AccountForm()
 
     # Update the CSRF token
@@ -86,7 +89,7 @@ def account_create(request, *args, **kargs):
         form=account_form, **kargs))
     return render_to_response("accounts/form.html", context)
 
-def account_update(request, account_id):
+def account_update(request, account_id, *args, **kargs):
     """
     Update an individual account.
 
@@ -94,8 +97,23 @@ def account_update(request, account_id):
     On POST, it will update information about the account.
     """
 
-    context = RequestContext(request, {"section":"accounts"})
-    return render_to_response("accounts/detail.html", context)
+    account = get_object_or_404(Account, pk=account_id)
+
+    if request.method == 'POST':
+        # Try to validate and update
+        account_form = AccountForm(request.POST, instance=account)
+        if account_form.is_valid():
+            account = account_form.save()
+            return HttpResponseRedirect('/account')
+    else:
+        # Populate the form with the current account's data
+        account_form = AccountForm(instance=account)
+
+    # Pass back the form we have, after updating CSRF
+    kargs.update(csrf(request))
+    context = RequestContext(request, dict(section="accounts",
+        form=account_form, **kargs))
+    return render_to_response("accounts/form.html", context)
 
 # Transaction handlers
 
