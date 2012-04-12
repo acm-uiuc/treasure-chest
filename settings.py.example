@@ -71,6 +71,13 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 LOGOUT_URL = '/logout'
 
+# Email server info
+EMAIL_HOST =
+EMAIL_HOST_USER =
+EMAIL_HOST_PASSWORD =
+EMAIL_PORT =
+EMAIL_USE_TLS =
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
