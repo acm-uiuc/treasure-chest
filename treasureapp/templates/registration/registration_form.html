@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}Treasure Chest | Create Account{% endblock %}
+
+{% block content %}
+
+<form class="well" method="post">
+    {% csrf_token %}
+    {{ form|bootstrap }}
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

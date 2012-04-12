@@ -1,0 +1,3 @@
+Welcome to Treasure Chest!
+
+To activate your account please visit http://localhost:8000/activate/{{activation_key}}.
