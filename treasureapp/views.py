@@ -43,11 +43,11 @@ def account_list(request):
         "account_list":account_list})
     return render_to_response("accounts/list.html", context)
 
-def account_detail(request):
+def account_detail(request, account_id):
     """
     Show details of a specific account.
 
-    On GET, it will return details on the specific account.
+    On GET, it will return details on the account numbered account_id.
     """
 
     context = RequestContext(request, {"section":"accounts"})
@@ -78,7 +78,7 @@ def account_create(request, *args, **kargs):
         form=account_form, **kargs))
     return render_to_response("accounts/form.html", context)
 
-def account_update(request):
+def account_update(request, account_id):
     """
     Update an individual account.
 
@@ -92,13 +92,19 @@ def account_update(request):
 # Transaction handlers
 
 def transaction_list(request):
+    """
+    Render the listing of all transactions.
+
+    On GET, it will return a listing of all transactions.
+    """
+
     transaction_list = Transaction.objects.all()
 
     context = RequestContext(request, {"section":"transactions",
         "transaction_list":transaction_list})
     return render_to_response("transactions/list.html", context)
 
-def transaction_detail(request):
+def transaction_detail(request, transaction_id):
     pass
 
 def transaction_create(request, *args, **kargs):
@@ -123,5 +129,5 @@ def transaction_create(request, *args, **kargs):
         form=transaction_form, **kargs))
     return render_to_response("transactions/form.html", context)
 
-def transaction_update(request):
+def transaction_update(request, transaction_id):
     pass

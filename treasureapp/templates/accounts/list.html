@@ -19,7 +19,11 @@
     <tbody>
         {% for account in account_list %}
         <tr>
-            <td>{{ account.name }}</td>
+            <td>
+                <a href="{% url account_detail account.pk %}">
+                    {{ account.name }}
+                </a>
+            </td>
             <td>{{ account.balance }}</td>
         </tr>
         {% endfor %}

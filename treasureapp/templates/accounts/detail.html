@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Treasure Chest | Account Detail{% endblock %}
+
+{% block content %}
+
+<h1>Accounts</h1>
+
+
+<!-- Controls to make a new account -->
+
+<p>
+<a href="{% url account_create %}" class="btn btn-primary btn-large">
+    Make new account
+</a>
+</p>
+
+{% endblock %}
