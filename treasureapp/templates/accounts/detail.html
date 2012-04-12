@@ -4,14 +4,24 @@
 
 {% block content %}
 
-<h1>Accounts</h1>
+<h1>{{ account.name }}</h1>
 
+<h2>Balance: {{ account.balance }}</h2>
+
+{% if account.description %}
+<h2>Description:</h2>
+
+<p>
+{{ account.description }}
+</p>
+
+{% endif %}
 
 <!-- Controls to make a new account -->
 
 <p>
-<a href="{% url account_create %}" class="btn btn-primary btn-large">
-    Make new account
+<a href="{% url account_update account.pk %}" class="btn btn-primary btn-large">
+    Update this account
 </a>
 </p>
 

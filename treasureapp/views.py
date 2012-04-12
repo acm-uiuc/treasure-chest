@@ -50,7 +50,15 @@ def account_detail(request, account_id):
     On GET, it will return details on the account numbered account_id.
     """
 
-    context = RequestContext(request, {"section":"accounts"})
+    # Grab the account (or 404, of course)
+    account = get_object_or_404(Account, pk=account_id)
+
+    # TODO: Signal logic, people
+    account.update_balance()
+
+    # Pass it back out to the renderer
+    context = RequestContext(request, {"section":"accounts",
+        "account":account})
     return render_to_response("accounts/detail.html", context)
 
 def account_create(request, *args, **kargs):
