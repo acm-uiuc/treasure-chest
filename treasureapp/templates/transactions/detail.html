@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Treasure Chest | Transaction Detail{% endblock %}
+
+{% block content %}
+
+<h2>From: {{ transaction.from_acct }}</h2>
+<h2>To: {{ transaction.to_acct }}</h2>
+<h2>Amount: {{ transaction.amount }}</h2>
+<h2>By: {{ transaction.owner }}</h2>
+
+{% if transaction.description %}
+<h2>Description:</h2>
+
+<p>
+{{ transaction.description }}
+</p>
+
+{% endif %}
+
+<!-- Controls to make a new account -->
+
+<p>
+<a href="{% url transaction_update transaction.pk %}" class="btn btn-primary btn-large">
+    Update this transaction
+</a>
+</p>
+
+{% endblock %}

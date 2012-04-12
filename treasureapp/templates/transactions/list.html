@@ -14,6 +14,7 @@
             <th>From Account</th>
             <th>To Account</th>
             <th>Amount</th>
+            <th>Details</th>
         </tr>
     </thead>
 
@@ -23,6 +24,11 @@
             <td>{{ transaction.from_acct }}</td>
             <td>{{ transaction.to_acct }}</td>
             <td>{{ transaction.amount }}</td>
+            <td>
+                <a href="{% url transaction_detail transaction.pk %}">
+                    View Details
+                </a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

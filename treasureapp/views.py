@@ -131,7 +131,19 @@ def transaction_list(request):
     return render_to_response("transactions/list.html", context)
 
 def transaction_detail(request, transaction_id):
-    pass
+    """
+    Show details of a specific transaction.
+
+    On GET, it will return details on the transaction with the given id.
+    """
+
+    # Grab the transaction (or 404, of course)
+    transaction = get_object_or_404(Transaction, pk=transaction_id)
+
+    # Pass it back out to the renderer
+    context = RequestContext(request, {"section":"transactions",
+        "transaction":transaction})
+    return render_to_response("transactions/detail.html", context)
 
 def transaction_create(request, *args, **kargs):
     """
@@ -155,5 +167,29 @@ def transaction_create(request, *args, **kargs):
         form=transaction_form, **kargs))
     return render_to_response("transactions/form.html", context)
 
-def transaction_update(request, transaction_id):
-    pass
+def transaction_update(request, transaction_id, *args, **kargs):
+    """
+    Update an individual transaction.
+
+    On GET, it will return a form to update the transaction.
+    On POST, it will update information about the transaction.
+    """
+
+    # Grab the transaction (or 404, of course)
+    transaction = get_object_or_404(Transaction, pk=transaction_id)
+
+    if request.method == 'POST':
+        # Try to validate and update
+        transaction_form = TransactionForm(request.POST, instance=transaction)
+        if transaction_form.is_valid():
+            transaction = transaction_form.save()
+            return HttpResponseRedirect('/transaction')
+    else:
+        # Populate the form with the current transaction data
+        transaction_form = TransactionForm(instance=transaction)
+
+    # Pass back the form we have, after updating CSRF
+    kargs.update(csrf(request))
+    context = RequestContext(request, dict(section="transactions",
+        form=transaction_form, **kargs))
+    return render_to_response("transactions/form.html", context)
