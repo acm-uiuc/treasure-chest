@@ -97,6 +97,7 @@ INSTALLED_APPS = (
 
     'south',
     'bootstrapform',
+    'registration',
 
     'treasureapp',
 )
