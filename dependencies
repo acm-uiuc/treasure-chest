@@ -2,3 +2,4 @@ Django==1.2.3
 South==0.7.3
 django-bootstrap-form==0.2
 django-registration==0.8
+django-guardian==1.0.4
