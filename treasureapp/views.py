@@ -182,7 +182,20 @@ def transaction_create(request, *args, **kargs):
     if request.method == 'POST':
         transaction_form = TransactionForm(request.POST)
         if transaction_form.is_valid():
-            transaction = transaction_form.save()
+            transaction = transaction_form.save(commit=False)
+
+            # Check that the user can make this transaction
+            from_acct = transaction.from_acct
+            to_acct = transaction.to_acct
+
+            request_user = request.user
+            groups = request_user.groups.all()
+            from_accessor = Accessor.objects.filter(group__in=groups, account=from_acct)
+            to_accessor = Accessor.objects.filter(group__in=groups, account=to_acct)
+
+            if len(from_accessor) == 0 or len(to_accessor) == 0:
+                raise PermissionDenied()
+
             return HttpResponseRedirect('/transaction')
     else:
         transaction_form = TransactionForm()
