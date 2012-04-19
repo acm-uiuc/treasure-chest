@@ -65,6 +65,13 @@ def account_detail(request, account_id):
     # Grab the account (or 404, of course)
     account = get_object_or_404(Account, pk=account_id)
 
+    # Check that the user can access it, or 403
+    request_user = request.user
+    groups = request_user.groups.all()
+    accessor_list = Accessor.objects.filter(group__in=groups, account=account)
+
+#    if len(accessor_list) == 0:
+
     # TODO: Signal logic, people
     account.update_balance()
 
