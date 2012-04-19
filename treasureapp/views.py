@@ -40,7 +40,6 @@ def account_list(request):
     # Update cached values of accounts
     for account in account_list:
         account.update_balance()
-        if 
 
     context = RequestContext(request, {"section":"accounts",
         "account_list":account_list})
