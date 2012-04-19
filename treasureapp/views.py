@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404, HttpResponseRedirect
-from django.core.context_processors import csrf
 from django.template import RequestContext
+from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
 from treasureapp.models import Account, Transaction
 from treasureapp.forms import AccountForm, TransactionForm
@@ -25,6 +26,7 @@ def help(request):
 
 # Account handlers
 
+@login_required
 def account_list(request):
     """
     Render the listing of all accounts.
@@ -38,11 +40,13 @@ def account_list(request):
     # Update cached values of accounts
     for account in account_list:
         account.update_balance()
+        if 
 
     context = RequestContext(request, {"section":"accounts",
         "account_list":account_list})
     return render_to_response("accounts/list.html", context)
 
+@login_required
 def account_detail(request, account_id):
     """
     Show details of a specific account.
@@ -61,6 +65,7 @@ def account_detail(request, account_id):
         "account":account})
     return render_to_response("accounts/detail.html", context)
 
+@login_required
 def account_create(request, *args, **kargs):
     """
     Allow the user to create a new account.
@@ -89,6 +94,7 @@ def account_create(request, *args, **kargs):
         form=account_form, **kargs))
     return render_to_response("accounts/form.html", context)
 
+@login_required
 def account_update(request, account_id, *args, **kargs):
     """
     Update an individual account.
@@ -117,6 +123,7 @@ def account_update(request, account_id, *args, **kargs):
 
 # Transaction handlers
 
+@login_required
 def transaction_list(request):
     """
     Render the listing of all transactions.
@@ -130,6 +137,7 @@ def transaction_list(request):
         "transaction_list":transaction_list})
     return render_to_response("transactions/list.html", context)
 
+@login_required
 def transaction_detail(request, transaction_id):
     """
     Show details of a specific transaction.
@@ -145,6 +153,7 @@ def transaction_detail(request, transaction_id):
         "transaction":transaction})
     return render_to_response("transactions/detail.html", context)
 
+@login_required
 def transaction_create(request, *args, **kargs):
     """
     Allow the user to create a new transaction.
@@ -167,6 +176,7 @@ def transaction_create(request, *args, **kargs):
         form=transaction_form, **kargs))
     return render_to_response("transactions/form.html", context)
 
+@login_required
 def transaction_update(request, transaction_id, *args, **kargs):
     """
     Update an individual transaction.
