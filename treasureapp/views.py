@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404, HttpResponseRedirect
 from django.template import RequestContext
+from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 
@@ -70,7 +71,8 @@ def account_detail(request, account_id):
     groups = request_user.groups.all()
     accessor_list = Accessor.objects.filter(group__in=groups, account=account)
 
-#    if len(accessor_list) == 0:
+    if len(accessor_list) == 0:
+        raise PermissionDenied()
 
     # TODO: Signal logic, people
     account.update_balance()
@@ -207,7 +209,7 @@ def transaction_update(request, transaction_id, *args, **kargs):
         # Try to validate and update
         transaction_form = TransactionForm(request.POST, instance=transaction)
         if transaction_form.is_valid():
-            transaction = transaction_form.save()
+  
             return HttpResponseRedirect('/transaction')
     else:
         # Populate the form with the current transaction data
