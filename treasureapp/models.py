@@ -15,6 +15,8 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits = 30, decimal_places = 2,
             blank=True)
 
+    accessors = models.ManyToManyField(Group, through='Accessor')
+
     def __unicode__(self):
         """
         Return a unicode representation of an account object.
@@ -49,6 +51,20 @@ class Account(models.Model):
         self.balance = balance
 
         return balance
+
+class Accessor(models.Model):
+    """
+    An accessor is an intersection entity for details of people who can
+    access Treasure Chest accounts.
+
+    account - The account in question
+    group - The group in question
+    owner - If true, group can make transactions involving account
+    """
+
+    account = models.ForeignKey(Account)
+    group = models.ForeignKey(Group)
+    owner = models.BooleanField()
 
 class Transaction(models.Model):
     """
