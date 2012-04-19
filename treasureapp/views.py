@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 
-from treasureapp.models import Account, Transaction
+from treasureapp.models import Account, Transaction, Accessor
 from treasureapp.forms import AccountForm, TransactionForm
 
 # Basic content handlers
@@ -34,15 +34,24 @@ def account_list(request):
     On GET, it will return a listing of all accounts.
     """
 
+    # Recover the groups the accessor is in
+    request_user = request.user
+    groups = request_user.groups.all()
+
     account_list = Account.objects.all()
+    return_list = []
 
     # TODO: Add signal logic on transaction create so we don't need to do this
     # Update cached values of accounts
     for account in account_list:
+        # Check if the user can actually read this account
+        accessor_list = Accessor.objects.filter(group__in=groups, account=account)
+        if len(accessor_list):
+            return_list.append(account)
         account.update_balance()
 
     context = RequestContext(request, {"section":"accounts",
-        "account_list":account_list})
+        "account_list":return_list})
     return render_to_response("accounts/list.html", context)
 
 @login_required
