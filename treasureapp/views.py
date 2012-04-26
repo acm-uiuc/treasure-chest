@@ -96,10 +96,7 @@ def account_create(request, *args, **kargs):
         # Failures fall through to returning the old form with errors
         account_form = AccountForm(request.POST)
         if account_form.is_valid():
-            new_account = account_form.save(commit=False)
-            # Add in an account balance of 0. Always. No exceptions.
-            new_account.balance = 0
-            new_account.save()
+            new_account = account_form.save()
             return HttpResponseRedirect('/account')
     else:
         # If GET request, return the form to make a new account

@@ -52,6 +52,9 @@ class Account(models.Model):
 
         return balance
 
+    def clean(self):
+        self.balance = 0
+
 class Accessor(models.Model):
     """
     An accessor is an intersection entity for details of people who can
