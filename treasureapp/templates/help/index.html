@@ -12,7 +12,7 @@
 An <em>account</em> is a virtual representation of money organization.
 Accounts may exist in the real world, they may be virtual accounts
 (such as money allocated or equity), or they may be invoice accounts
-(accounts payable and recievable).
+(accounts payable and receivable).
 </p>
 
 <p>
@@ -25,7 +25,7 @@ go to the accounts tab.
 
 <p>
 To move money between (or into) accounts, you need a <em>transaction</em>.
-Transactions are entites representing the transfer of cash from one account
+Transactions are entities representing the transfer of cash from one account
 to another, and the only way to update account balances. In proper
 double-entry booking style, any transaction must have both an account
 it comes out of and an account it goes into. It is appropriate to maintain
@@ -34,7 +34,48 @@ represent money leaving and entering the organization.
 </p>
 
 <p>
-To manage transactions, go to the transactions tab.
+Managing transactions is done from the account details page. To create a new
+transaction, first go to the page of the account you want to move money from,
+and click "Create new transaction". Then fill out the details for the
+transaction, including which account you want to move money into, the amount of
+money you want to move (this must be non-negative&emdash;if you want to move
+money into the account, go to the page for the account you want to move money
+from), and an optional description for the transaction.
+</p>
+
+<p>
+You can view transaction details by clicking the details button in the account
+details view. From the transaction details page you may see additional
+information excluded from the summary page, such as a transaction description
+and images. You may also edit the transaction to change the amount, description,
+and upload or remove images. You may delete the transaction, but for account
+integrity it is not possible to change the accounts on which the transaction
+occurred.
+</p>
+
+<h2>Group and User Management</h2>
+
+<p>
+Permissions in Treasure Chest are controlled through various <em>groups</em>. A
+group consists of users, and any user in the group may edit the group to add or
+remove members (including themselves, so long as removing themselves does not
+bring the group down to zero members).
+</p>
+
+<p>
+A group by itself does not have any privileges assigned to it, but rather
+receives privileges granted to it by individual accounts. Each account may have
+account owners and account viewers. If a user is a member of at least one group
+that is an account viewer, that user may see the account and <em>all</em>
+associated transactions with the account.
+</p>
+
+<p>
+A user may make a transaction between two accounts if and only if they are
+considered owners of both accounts. Users may make a transaction between two
+accounts even if they are an owner of one account by means of a different group
+than the other account, so long as they are are by some means an owner on both
+accounts they intend to move money between.
 </p>
 
 {% endblock %}
