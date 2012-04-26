@@ -75,7 +75,7 @@ def transaction_update(request, transaction_id, *args, **kargs):
 		# Try to validate and update
 		transaction_form = TransactionForm(request.POST, instance=transaction)
 		if transaction_form.is_valid():
-			return HttpResponseRedirect('/transaction')
+			return HttpResponseRedirect('/transaction/' + transaction_id)
 	else:
 		# Populate the form with the current transaction data
 		transaction_form = TransactionForm(instance=transaction)
