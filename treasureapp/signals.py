@@ -1,8 +1,10 @@
+from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 from treasureapp.models import Account, Transaction
 
-def balance_modify(sender, **kwargs):
+@receiver(post_save, sender=Transaction)
+def transact_to_account(sender, **kwargs):
 	"""
 	Update balances when a transaction is modified.
 
@@ -19,5 +21,3 @@ def balance_modify(sender, **kwargs):
 	# the balance field is not
 	from_acct.update_balance()
 	to_acct.update_balance()
-
-post_save.connect(balance_modify, sender=Transaction)

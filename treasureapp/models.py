@@ -59,7 +59,7 @@ class Account(models.Model):
         """
 
         # Force the balance on create to be zero
-        self.balance = 0
+        self.update_balance()
 
         # Account has at least one owner or raise exception
 #       num_owners = len(self.accessors.filter(owner=True))
