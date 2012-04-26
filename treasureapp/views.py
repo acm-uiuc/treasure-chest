@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from treasureapp.models import Account, Transaction, Accessor
 from treasureapp.forms import AccountForm, TransactionForm
 
+from treasureapp.authenticators import authenticate_account, authenticate_transaction
+
 import treasureapp.signals
 
 # Basic content handlers
@@ -67,11 +69,7 @@ def account_detail(request, account_id):
     account = get_object_or_404(Account, pk=account_id)
 
     # Check that the user can access it, or 403
-    request_user = request.user
-    groups = request_user.groups.all()
-    accessor_list = Accessor.objects.filter(group__in=groups, account=account)
-
-    if len(accessor_list) == 0:
+    if not authenticate_account(request.user, account):
         raise PermissionDenied()
 
     # Pass it back out to the renderer
@@ -117,11 +115,7 @@ def account_update(request, account_id, *args, **kargs):
     account = get_object_or_404(Account, pk=account_id)
 
     # Check that the user can access it, or 403
-    request_user = request.user
-    groups = request_user.groups.all()
-    accessor_list = Accessor.objects.filter(group__in=groups, account=account)
-
-    if len(accessor_list) == 0:
+    if not authenticate_account(request.user, account):
         raise PermissionDenied()
 
     if request.method == 'POST':
@@ -187,15 +181,7 @@ def transaction_create(request, *args, **kargs):
             transaction = transaction_form.save(commit=False)
 
             # Check that the user can make this transaction
-            from_acct = transaction.from_acct
-            to_acct = transaction.to_acct
-
-            request_user = request.user
-            groups = request_user.groups.all()
-            from_accessor = Accessor.objects.filter(group__in=groups, account=from_acct)
-            to_accessor = Accessor.objects.filter(group__in=groups, account=to_acct)
-
-            if len(from_accessor) == 0 or len(to_accessor) == 0:
+            if not authenticate_transaction(request.user, transaction):
                 raise PermissionDenied()
 
             transaction.save()
@@ -223,15 +209,7 @@ def transaction_update(request, transaction_id, *args, **kargs):
     transaction = get_object_or_404(Transaction, pk=transaction_id)
 
     # Check that the user can update both of the involved accounts
-    from_acct = transaction.from_acct
-    to_acct = transaction.to_acct
-
-    request_user = request.user
-    groups = request_user.groups.all()
-    from_accessor = Accessor.objects.filter(group__in=groups, account=from_acct)
-    to_accessor = Accessor.objects.filter(group__in=groups, account=to_acct)
-
-    if len(from_accessor) == 0 or len(to_accessor) == 0:
+    if not authenticate_transaction(request.user, transaction):
         raise PermissionDenied()
 
     if request.method == 'POST':
