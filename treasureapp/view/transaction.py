@@ -91,5 +91,7 @@ def transaction_update(request, transaction_id, *args, **kargs):
 	# Pass back the form we have, after updating CSRF
 	kargs.update(csrf(request))
 	context = RequestContext(request, dict(section="accounts",
-		form=transaction_form, **kargs))
+		account=transaction.from_acct,
+		form=transaction_form,
+		**kargs))
 	return render_to_response("transactions/form.html", context)
