@@ -50,6 +50,7 @@ class Account(models.Model):
 
 		# Update the cached balance
 		self.balance = balance
+		self.save()
 
 		return balance
 
