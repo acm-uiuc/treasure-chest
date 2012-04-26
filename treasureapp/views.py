@@ -116,6 +116,14 @@ def account_update(request, account_id, *args, **kargs):
 
     account = get_object_or_404(Account, pk=account_id)
 
+    # Check that the user can access it, or 403
+    request_user = request.user
+    groups = request_user.groups.all()
+    accessor_list = Accessor.objects.filter(group__in=groups, account=account)
+
+    if len(accessor_list) == 0:
+        raise PermissionDenied()
+
     if request.method == 'POST':
         # Try to validate and update
         account_form = AccountForm(request.POST, instance=account)
@@ -213,6 +221,18 @@ def transaction_update(request, transaction_id, *args, **kargs):
 
     # Grab the transaction (or 404, of course)
     transaction = get_object_or_404(Transaction, pk=transaction_id)
+
+    # Check that the user can update both of the involved accounts
+    from_acct = transaction.from_acct
+    to_acct = transaction.to_acct
+
+    request_user = request.user
+    groups = request_user.groups.all()
+    from_accessor = Accessor.objects.filter(group__in=groups, account=from_acct)
+    to_accessor = Accessor.objects.filter(group__in=groups, account=to_acct)
+
+    if len(from_accessor) == 0 or len(to_accessor) == 0:
+        raise PermissionDenied()
 
     if request.method == 'POST':
         # Try to validate and update
