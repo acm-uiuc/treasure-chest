@@ -86,14 +86,12 @@ class Transaction(models.Model):
 
     from_acct - The account the transaction is coming out of
     to_acct - The account the transaction is going into
-    owner - The group performing the transaction
     amount - Change in account balance
     description - An optional description of the transaction
     """
 
     from_acct = models.ForeignKey(Account, related_name='from_acct')
     to_acct = models.ForeignKey(Account, related_name='to_acct')
-    owner = models.ForeignKey(Group)
     amount = models.DecimalField(max_digits = 10, decimal_places = 2)
     description = models.TextField(blank=True)
 

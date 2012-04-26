@@ -22,4 +22,4 @@ class TransactionForm(ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ('from_acct', 'to_acct', 'amount', 'owner', 'description')
+        fields = ('from_acct', 'to_acct', 'amount', 'description')
