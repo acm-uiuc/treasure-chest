@@ -25,6 +25,9 @@ def group_detail(request, group_id, *args, **kwargs):
 	if not authenticate_group(request_user, group):
 		raise PermissionDenied()
 
-	context = RequestContext(request, {"section":"groups"
-		})
-	return render_to_response("groups/list.html", context)
+	group_members = group.user_set.all()
+
+	context = RequestContext(request, {"section":"groups",
+		"group":group,
+		"members":group_members})
+	return render_to_response("groups/detail.html", context)

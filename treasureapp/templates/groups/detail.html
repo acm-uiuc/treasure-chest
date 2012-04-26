@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Treasure Chest | Group Detail{% endblock %}
+
+{% block content %}
+
+<h1>{{ group.name }}</h1>
+
+<h2>Member List</h2>
+{% for member in members %}
+	<p> {{ member.name }} </p>
+{% endfor %}
+
+{% endblock %}
