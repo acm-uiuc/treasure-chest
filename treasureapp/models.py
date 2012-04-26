@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Group
 
 class Account(models.Model):
@@ -53,7 +54,17 @@ class Account(models.Model):
         return balance
 
     def clean(self):
+        """
+        Clean out account data before creation.
+        """
+
+        # Force the balance on create to be zero
         self.balance = 0
+
+        # Account has at least one owner or raise exception
+#       num_owners = len(self.accessors.filter(owner=True))
+#       if num_owners == 0:
+#           raise ValidationError
 
 class Accessor(models.Model):
     """

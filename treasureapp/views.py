@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from treasureapp.models import Account, Transaction, Accessor
 from treasureapp.forms import AccountForm, TransactionForm
 
+import treasureapp.signals
+
 # Basic content handlers
 
 def index(request):
@@ -42,14 +44,12 @@ def account_list(request):
     account_list = Account.objects.all()
     return_list = []
 
-    # TODO: Add signal logic on transaction create so we don't need to do this
-    # Update cached values of accounts
+    # TODO: Figure out how to grab this without linear search
     for account in account_list:
         # Check if the user can actually read this account
         accessor_list = Accessor.objects.filter(group__in=groups, account=account)
         if len(accessor_list):
             return_list.append(account)
-        account.update_balance()
 
     context = RequestContext(request, {"section":"accounts",
         "account_list":return_list})
@@ -73,9 +73,6 @@ def account_detail(request, account_id):
 
     if len(accessor_list) == 0:
         raise PermissionDenied()
-
-    # TODO: Signal logic, people
-    account.update_balance()
 
     # Pass it back out to the renderer
     context = RequestContext(request, {"section":"accounts",
