@@ -9,6 +9,10 @@ from treasureapp.authenticators import authenticate_group
 
 @login_required
 def group_manager(request, *args, **kwargs):
+	"""
+	Render the main page for the group manager.
+	"""
+
 	request_user = request.user
 	groups = request_user.groups.all()
 
@@ -19,6 +23,10 @@ def group_manager(request, *args, **kwargs):
 
 @login_required
 def group_detail(request, group_id, *args, **kwargs):
+	"""
+	Render the details page for a specific group.
+	"""
+
 	request_user = request.user
 	group = get_object_or_404(Group, pk=group_id)
 
@@ -31,3 +39,25 @@ def group_detail(request, group_id, *args, **kwargs):
 		"group":group,
 		"members":group_members})
 	return render_to_response("groups/detail.html", context)
+
+@login_required
+def group_create(request, *args, **kwargs):
+	"""
+	Create a new group.
+
+	On GET, returns the form for creating a new group.
+	On POST, attempts to validate and create a new group.
+	"""
+
+	pass
+
+@login_required
+def group_update(request, group_id, *args, **kwargs):
+	"""
+	Update an existing group.
+
+	On GET, returns the update form for the existing group.
+	On POST, attempts to validate and update the group.
+	"""
+
+	pass
