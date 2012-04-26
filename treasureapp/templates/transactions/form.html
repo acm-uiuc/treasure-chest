@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>Add new transaction</h1>
+<h1>Transaction out of {{ account.name }}</h1>
 
 <form class="well" method="post">
     {% csrf_token %}

@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 
-from treasureapp.models import Transaction
+from treasureapp.models import Account, Transaction
 from treasureapp.forms import TransactionForm
 
 from treasureapp.authenticators import authenticate_transaction
@@ -26,7 +26,7 @@ def transaction_detail(request, transaction_id):
 	return render_to_response("transactions/detail.html", context)
 
 @login_required
-def transaction_create(request, *args, **kargs):
+def transaction_create(request, account_id, *args, **kargs):
 	"""
 	Allow the user to create a new transaction.
 
@@ -34,10 +34,16 @@ def transaction_create(request, *args, **kargs):
 	On POST, it will use the post data to add a transaction to the database.
 	"""
 
+	# 404 on nonexistent from account
+	from_acct = get_object_or_404(Account, pk=account_id)
+
 	if request.method == 'POST':
 		transaction_form = TransactionForm(request.POST)
 		if transaction_form.is_valid():
 			transaction = transaction_form.save(commit=False)
+
+			# Populate the from_acct field
+			transaction.from_acct = from_acct
 
 			# Check that the user can make this transaction
 			if not authenticate_transaction(request.user, transaction):
@@ -52,7 +58,9 @@ def transaction_create(request, *args, **kargs):
 	# Update the CSRF token
 	kargs.update(csrf(request))
 	context = RequestContext(request, dict(section="accounts",
-		form=transaction_form, **kargs))
+		account=from_acct,
+		form=transaction_form,
+		**kargs))
 	return render_to_response("transactions/form.html", context)
 
 @login_required
