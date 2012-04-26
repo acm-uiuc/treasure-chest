@@ -4,10 +4,9 @@
 
 {% block content %}
 
-<h2>From: {{ transaction.from_acct }}</h2>
-<h2>To: {{ transaction.to_acct }}</h2>
-<h2>Amount: {{ transaction.amount }}</h2>
-<h2>By: {{ transaction.owner }}</h2>
+<p>
+{{ transaction.amount }} From {{ transaction.from_acct }} To {{ transaction.to_acct }}
+</p>
 
 {% if transaction.description %}
 <h2>Description:</h2>

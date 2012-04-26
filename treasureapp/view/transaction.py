@@ -10,20 +10,6 @@ from treasureapp.forms import TransactionForm
 from treasureapp.authenticators import authenticate_transaction
 
 @login_required
-def transaction_list(request):
-	"""
-	Render the listing of all transactions.
-
-	On GET, it will return a listing of all transactions.
-	"""
-
-	transaction_list = Transaction.objects.all()
-
-	context = RequestContext(request, {"section":"transactions",
-		"transaction_list":transaction_list})
-	return render_to_response("transactions/list.html", context)
-
-@login_required
 def transaction_detail(request, transaction_id):
 	"""
 	Show details of a specific transaction.
@@ -35,7 +21,7 @@ def transaction_detail(request, transaction_id):
 	transaction = get_object_or_404(Transaction, pk=transaction_id)
 
 	# Pass it back out to the renderer
-	context = RequestContext(request, {"section":"transactions",
+	context = RequestContext(request, {"section":"accounts",
 		"transaction":transaction})
 	return render_to_response("transactions/detail.html", context)
 
@@ -65,7 +51,7 @@ def transaction_create(request, *args, **kargs):
 
 	# Update the CSRF token
 	kargs.update(csrf(request))
-	context = RequestContext(request, dict(section="transactions",
+	context = RequestContext(request, dict(section="accounts",
 		form=transaction_form, **kargs))
 	return render_to_response("transactions/form.html", context)
 
@@ -96,6 +82,6 @@ def transaction_update(request, transaction_id, *args, **kargs):
 
 	# Pass back the form we have, after updating CSRF
 	kargs.update(csrf(request))
-	context = RequestContext(request, dict(section="transactions",
+	context = RequestContext(request, dict(section="accounts",
 		form=transaction_form, **kargs))
 	return render_to_response("transactions/form.html", context)
