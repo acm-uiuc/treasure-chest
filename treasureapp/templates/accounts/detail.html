@@ -17,7 +17,38 @@
 
 {% endif %}
 
-<!-- Controls to make a new account -->
+<!-- Transaction list for this account -->
+
+{% if transactions %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>From Account</th>
+            <th>To Account</th>
+            <th>Amount</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.from_acct }}</td>
+            <td>{{ transaction.to_acct }}</td>
+            <td>{{ transaction.amount }}</td>
+            <td>
+                <a href="{% url transaction_detail transaction.pk %}">
+                    View Details
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+{% endif %}
+
+<!-- Controls to update account -->
 
 <p>
 <a href="{% url account_update account.pk %}" class="btn btn-primary btn-large">

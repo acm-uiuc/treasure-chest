@@ -3,8 +3,9 @@ from django.template import RequestContext
 from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
-from treasureapp.models import Account, Accessor
+from treasureapp.models import Account, Accessor, Transaction
 from treasureapp.forms import AccountForm
 
 from treasureapp.authenticators import authenticate_account
@@ -50,8 +51,14 @@ def account_detail(request, account_id):
 	if not authenticate_account(request.user, account):
 		raise PermissionDenied()
 
+	# Get the transactions from or to this account
+	transaction_list = Transaction.objects.filter(
+			Q(from_acct=account) | Q(to_acct=account)
+			)
+
 	# Pass it back out to the renderer
 	context = RequestContext(request, {"section":"accounts",
+		"transactions":transaction_list,
 		"account":account})
 	return render_to_response("accounts/detail.html", context)
 
