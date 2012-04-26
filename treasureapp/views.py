@@ -193,6 +193,8 @@ def transaction_create(request, *args, **kargs):
             if len(from_accessor) == 0 or len(to_accessor) == 0:
                 raise PermissionDenied()
 
+            transaction.save()
+
             return HttpResponseRedirect('/transaction')
     else:
         transaction_form = TransactionForm()
