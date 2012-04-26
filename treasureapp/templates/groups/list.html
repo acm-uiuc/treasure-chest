@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Treasure Chest | Groups{% endblock %}
+
+{% block content %}
+
+<h1>Groups</h1>
+
+{% if groups %}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Group Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for group in groups %}
+        <tr>
+            <td>
+                <a href="{% url group_detail group.pk %}">
+                    {{ group.name }}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+{% else %}
+
+<!-- Page called without any accounts passed through -->
+
+<h3>You aren't in any groups. Ask a group owner to add you to one, or
+make your own!</h3>
+
+{% endif %}
+
+<!-- Controls to make a new account -->
+
+<p>
+<a href="{% url account_create %}" class="btn btn-primary btn-large">
+    Make new account
+</a>
+</p>
+
+{% endblock %}

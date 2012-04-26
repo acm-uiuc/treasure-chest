@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User, Group
 from treasureapp.models import Account, Transaction, Accessor
 
 def authenticate_account(user, account):
@@ -27,6 +28,16 @@ def authenticate_transaction(user, transaction):
 	to_accessor = Accessor.objects.filter(group__in=groups, account=to_acct)
 
 	if len(from_accessor) > 0 and len(to_accessor) > 0:
+		return True
+
+	return False
+
+def authenticate_group(user, group):
+	"""
+	Ensure that the given user can modify this group.
+	"""
+
+	if group in user.groups.all():
 		return True
 
 	return False

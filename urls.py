@@ -19,6 +19,7 @@ urlpatterns = patterns('treasureapp.views',
     url(r'^transaction/new$', 'transaction_create', {}, 'transaction_create'),
 
     # Group managment URLs
+    url(r'^groups/(?P<group_id>\d+)$', 'group_detail', {}, 'group_detail'),
     url(r'^groups/$', 'group_manager', {}, 'group_manager'),
 
     # Site standard content URLs
