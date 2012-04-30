@@ -1,7 +1,6 @@
 from django.forms import Form, ModelForm, DecimalField
 
-from django.contrib.auth.models import User, Group
-from treasureapp.models import Account, Transaction
+from treasureapp.models import Account, Transaction, AccountGroup
 
 class AccountForm(ModelForm):
     """
@@ -25,10 +24,10 @@ class TransactionForm(ModelForm):
         model = Transaction
         fields = ('to_acct', 'amount', 'description')
 
-class GroupForm(ModelForm):
+class AccountGroupForm(ModelForm):
     """
     A form for creating and updating user groups.
     """
 
     class Meta:
-        model = Group
+        model = AccountGroup
