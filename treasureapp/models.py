@@ -2,16 +2,19 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+class Member(User):
+	pass
+
 class AccountGroup(models.Model):
 	name = models.CharField(max_length=30)
-	members = models.ManyToManyField(User, through="GroupMember")
+	members = models.ManyToManyField(Member, through="GroupMember")
 
 	def __unicode__(self):
 		return self.name
 
 class GroupMember(models.Model):
 	group = models.ForeignKey(AccountGroup)
-	member = models.ForeignKey(User)
+	member = models.ForeignKey(Member)
 
 	class Meta:
 		unique_together = (("group", "member"))
