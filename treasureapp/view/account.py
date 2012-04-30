@@ -5,7 +5,8 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from treasureapp.models import Account, Accessor, Transaction
+from treasureapp.models import Account, Accessor, Transaction, \
+		AccountGroup, GroupMember
 from treasureapp.forms import AccountForm
 
 from treasureapp.authenticators import authenticate_account
@@ -20,7 +21,7 @@ def account_list(request):
 
 	# Recover the groups the accessor is in
 	request_user = request.user
-	groups = request_user.groups.all()
+	groups = GroupMember.objects.filter(member=request_user)
 
 	account_list = Account.objects.all()
 	return_list = []
