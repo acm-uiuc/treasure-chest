@@ -11,4 +11,10 @@
 	<p> {{ member.username }} </p>
 {% endfor %}
 
+<p>
+<a href="{% url group_update group.pk %}" class="btn btn-primary btn-large">
+    Update this group
+</a>
+</p>
+
 {% endblock %}

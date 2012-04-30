@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
