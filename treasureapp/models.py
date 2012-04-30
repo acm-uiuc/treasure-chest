@@ -4,17 +4,10 @@ from django.contrib.auth.models import User
 
 class AccountGroup(models.Model):
 	name = models.CharField(max_length=30)
-	members = models.ManyToManyField(User, through="GroupMember")
+	members = models.ManyToManyField(User)
 
 	def __unicode__(self):
 		return self.name
-
-class GroupMember(models.Model):
-	group = models.ForeignKey(AccountGroup)
-	member = models.ForeignKey(User)
-
-	class Meta:
-		unique_together = (("group", "member"))
 
 class Account(models.Model):
 	"""
@@ -30,7 +23,7 @@ class Account(models.Model):
 	balance = models.DecimalField(max_digits = 30, decimal_places = 2,
 			blank=True)
 
-	accessors = models.ManyToManyField(AccountGroup, through='Accessor')
+	accessors = models.ManyToManyField(AccountGroup)
 
 	def __unicode__(self):
 		"""
@@ -75,25 +68,6 @@ class Account(models.Model):
 
 		# Force the balance on create to be zero
 		self.update_balance()
-
-		# Account has at least one owner or raise exception
-#       num_owners = len(self.accessors.filter(owner=True))
-#       if num_owners == 0:
-#           raise ValidationError
-
-class Accessor(models.Model):
-	"""
-	An accessor is an intersection entity for details of people who can
-	access Treasure Chest accounts.
-
-	account - The account in question
-	group - The group in question
-	owner - If true, group can make transactions involving account
-	"""
-
-	account = models.ForeignKey(Account)
-	group = models.ForeignKey(AccountGroup)
-	owner = models.BooleanField()
 
 class Transaction(models.Model):
 	"""
