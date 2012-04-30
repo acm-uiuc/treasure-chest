@@ -21,7 +21,9 @@ def account_list(request):
 
 	# Recover the groups the accessor is in
 	request_user = request.user
-	groups = GroupMember.objects.filter(member=request_user)
+	# Get the group ID for each GroupMember entity associated with this member
+	groups = [x.group for x in GroupMember.objects.filter(member=request_user)]
+	print groups
 
 	account_list = Account.objects.all()
 	return_list = []
