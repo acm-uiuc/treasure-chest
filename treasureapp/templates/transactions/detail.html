@@ -4,20 +4,23 @@
 
 {% block content %}
 
+<h1>Transaction From {{ transaction.from_acct }}</h1>
+
 <p>
-{{ transaction.amount }} From {{ transaction.from_acct }} To {{ transaction.to_acct }}
+<strong>Transfer:</strong> {{ transaction.amount }}
+</p>
+
+<p>
+<strong>Into Account:</strong> {{ transaction.to_acct }}
 </p>
 
 {% if transaction.description %}
-<h2>Description:</h2>
-
 <p>
-{{ transaction.description }}
+<strong>Description:</strong> {{ transaction.description }}
 </p>
-
 {% endif %}
 
-<!-- Controls to make a new account -->
+</p>
 
 <p>
 <a href="{% url transaction_update transaction.pk %}" class="btn btn-primary btn-large">
