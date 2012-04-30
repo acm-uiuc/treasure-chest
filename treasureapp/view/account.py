@@ -23,7 +23,6 @@ def account_list(request):
 	request_user = request.user
 	# Get the group ID for each GroupMember entity associated with this member
 	groups = [x.group for x in GroupMember.objects.filter(member=request_user)]
-	print groups
 
 	account_list = Account.objects.all()
 	return_list = []
