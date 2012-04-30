@@ -1,13 +1,12 @@
-from treasureapp.models import Account, Transaction, Accessor, \
-		AccountGroup, GroupMember
+from treasureapp.models import Account, Transaction, AccountGroup
 
 def authenticate_account(user, account):
 	"""
 	Ensure that the given user can update this account.
 	"""
 
-	groups = [x.group for x in GroupMember.objects.filter(member=user)]
-	accessor_list = Accessor.objects.filter(group__in=groups, account=account)
+	groups = user.accountgroup_set.all()
+	accessor_list = account.accessors.filter(id__in=groups)
 
 	if len(accessor_list) > 0:
 		return True
@@ -23,9 +22,9 @@ def authenticate_transaction(user, transaction):
 	from_acct = transaction.from_acct
 	to_acct = transaction.to_acct
 
-	groups = [x.group for x in GroupMember.objects.filter(member=user)]
-	from_accessor = Accessor.objects.filter(group__in=groups, account=from_acct)
-	to_accessor = Accessor.objects.filter(group__in=groups, account=to_acct)
+	groups = user.accountgroup_set.all()
+	from_accessor = from_acct.accessors.filter(id__in=groups)
+	to_accessor = to_acct.accessors.filter(id__in=groups)
 
 	if len(from_accessor) > 0 and len(to_accessor) > 0:
 		return True
@@ -37,7 +36,7 @@ def authenticate_group(user, group):
 	Ensure that the given user can modify this group.
 	"""
 
-	groups = [x.group for x in GroupMember.objects.filter(member=user)]
+	groups = user.accountgroup_set.all()
 	if groups:
 		return True
 

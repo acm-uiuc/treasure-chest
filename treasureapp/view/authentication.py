@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 
-from treasureapp.models import AccountGroup, GroupMember
+from treasureapp.models import AccountGroup
 from treasureapp.forms import AccountGroupForm
 from treasureapp.authenticators import authenticate_group
 
@@ -15,7 +15,7 @@ def group_manager(request, *args, **kwargs):
 	"""
 
 	request_user = request.user
-	groups = [x.group for x in GroupMember.objects.filter(member=request_user)]
+	groups = request_user.accountgroup_set.all()
 
 
 	context = RequestContext(request, {"section":"groups",

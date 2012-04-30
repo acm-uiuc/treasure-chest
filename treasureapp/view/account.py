@@ -5,8 +5,7 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
-from treasureapp.models import Account, Accessor, Transaction, \
-		AccountGroup, GroupMember
+from treasureapp.models import Account, Transaction, AccountGroup
 from treasureapp.forms import AccountForm
 
 from treasureapp.authenticators import authenticate_account
