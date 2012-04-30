@@ -1,6 +1,20 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+
+class AccountGroup(models.Model):
+	name = models.CharField(max_length=30)
+	members = models.ManyToManyField(User, through="GroupMember")
+
+	def __unicode__(self):
+		return self.name
+
+class GroupMember(models.Model):
+	group = models.ForeignKey(AccountGroup)
+	member = models.ForeignKey(User)
+
+	class Meta:
+		unique_together = (("group", "member"))
 
 class Account(models.Model):
 	"""
@@ -16,7 +30,7 @@ class Account(models.Model):
 	balance = models.DecimalField(max_digits = 30, decimal_places = 2,
 			blank=True)
 
-	accessors = models.ManyToManyField(Group, through='Accessor')
+	accessors = models.ManyToManyField(AccountGroup, through='Accessor')
 
 	def __unicode__(self):
 		"""
@@ -78,7 +92,7 @@ class Accessor(models.Model):
 	"""
 
 	account = models.ForeignKey(Account)
-	group = models.ForeignKey(Group)
+	group = models.ForeignKey(AccountGroup)
 	owner = models.BooleanField()
 
 class Transaction(models.Model):
