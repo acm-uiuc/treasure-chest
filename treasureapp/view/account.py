@@ -21,17 +21,13 @@ def account_list(request):
 
 	# Recover the groups the accessor is in
 	request_user = request.user
-	# Get the group ID for each GroupMember entity associated with this member
-	groups = [x.group for x in GroupMember.objects.filter(member=request_user)]
 
 	account_list = Account.objects.all()
 	return_list = []
 
 	# TODO: Figure out how to grab this without linear search
 	for account in account_list:
-		# Check if the user can actually read this account
-		accessor_list = Accessor.objects.filter(group__in=groups, account=account)
-		if len(accessor_list):
+		if authenticate_account(request_user, account):
 			return_list.append(account)
 
 	context = RequestContext(request, {"section":"accounts",
