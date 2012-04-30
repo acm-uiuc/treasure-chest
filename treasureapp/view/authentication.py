@@ -15,7 +15,7 @@ def group_manager(request, *args, **kwargs):
 	"""
 
 	request_user = request.user
-	groups = request_user.groups.all()
+	groups = [x.group for x in GroupMember.objects.filter(member=request_user)]
 
 
 	context = RequestContext(request, {"section":"groups",
@@ -29,12 +29,12 @@ def group_detail(request, group_id, *args, **kwargs):
 	"""
 
 	request_user = request.user
-	group = get_object_or_404(Group, pk=group_id)
+	group = get_object_or_404(AccountGroup, pk=group_id)
 
 	if not authenticate_group(request_user, group):
 		raise PermissionDenied()
 
-	group_members = group.user_set.all()
+	group_members = group.members.all()
 
 	context = RequestContext(request, {"section":"groups",
 		"group":group,
@@ -73,4 +73,21 @@ def group_update(request, group_id, *args, **kwargs):
 	On POST, attempts to validate and update the group.
 	"""
 
-	pass
+	group = get_object_or_404(AccountGroup, pk=group_id)
+
+	if not authenticate_group(request.user, group):
+		raise PermissionDenied()
+
+	if request.method == 'POST':
+		group_form = AccountGroupForm(request.POST, instance=group)
+		if group_form.is_valid():
+			group_form.save()
+			return HttpResponseRedirect('/group')
+	else:
+		group_form = AccountGroupForm(instance=group)
+
+	# Update the CSRF token
+	kwargs.update(csrf(request))
+	context = RequestContext(request, dict(section="groups",
+		form=group_form, **kwargs))
+	return render_to_response("groups/form.html", context)
