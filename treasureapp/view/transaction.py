@@ -51,7 +51,7 @@ def transaction_create(request, account_id, *args, **kargs):
 
 			transaction.save()
 
-			return HttpResponseRedirect('/transaction/' + str(transaction.pk))
+			return HttpResponseRedirect('/account/' + str(account_id))
 	else:
 		transaction_form = TransactionForm()
 
@@ -83,7 +83,7 @@ def transaction_update(request, transaction_id, *args, **kargs):
 		# Try to validate and update
 		transaction_form = TransactionForm(request.POST, instance=transaction)
 		if transaction_form.is_valid():
-			return HttpResponseRedirect('/transaction/' + transaction_id)
+			return HttpResponseRedirect('/transaction/' + str(transaction_id))
 	else:
 		# Populate the form with the current transaction data
 		transaction_form = TransactionForm(instance=transaction)
