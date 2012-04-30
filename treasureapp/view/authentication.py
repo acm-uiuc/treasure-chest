@@ -1,10 +1,12 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.exceptions import PermissionDenied
+from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import Group
 
+from treasureapp.forms import GroupForm
 from treasureapp.authenticators import authenticate_group
 
 @login_required
@@ -49,7 +51,19 @@ def group_create(request, *args, **kwargs):
 	On POST, attempts to validate and create a new group.
 	"""
 
-	pass
+	if request.method == 'POST':
+		group_form = GroupForm(request.POST)
+		if group_form.is_valid():
+			group_form.save()
+			return HttpResponseRedirect('/group')
+	else:
+		group_form = GroupForm()
+
+	# Update the CSRF token
+	kwargs.update(csrf(request))
+	context = RequestContext(request, dict(section="groups",
+		form=group_form, **kwargs))
+	return render_to_response("groups/form.html", context)
 
 @login_required
 def group_update(request, group_id, *args, **kwargs):
