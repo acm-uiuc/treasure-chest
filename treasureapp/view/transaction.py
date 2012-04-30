@@ -51,7 +51,7 @@ def transaction_create(request, account_id, *args, **kargs):
 
 			transaction.save()
 
-			return HttpResponseRedirect('/transaction/' + transaction.pk)
+			return HttpResponseRedirect('/transaction/' + str(transaction.pk))
 	else:
 		transaction_form = TransactionForm()
 
