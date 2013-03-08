@@ -6,12 +6,20 @@
 
 <h1>{{ group.name }}</h1>
 
-<h2>Member List</h2>
+<h2>Member List</h2><br>
+<table class="table table-striped">
+
 {% for member in members %}
-	<p> {{ member.username }} </p>
+	<tr>
+		<td style="width:1px"> {{ forloop.counter }} </td>
+		<td> {{ member.username }} </td>
+	</tr>
 {% endfor %}
+</table>
 
 <p>
+<br>
+
 <a href="{% url group_update group.pk %}" class="btn btn-primary btn-large">
     Update this group
 </a>
