@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% load bootstrap %}
-{% block title %}Treasure Chest | Add account{% endblock %}
+
+{% block title %}{{Treasure Chest | Add/Update account"}{% endblock %}
 
 {% block content %}
 
-<h1>Add new account</h1>
+{% if mode == 'create' %}
+	<h1>Add new account</h1>
+{% elif mode == 'update' %}
+	<h1>Update existing account</h1>
+{% endif %}
 
 <form class="well" method="post">
     {% csrf_token %}
@@ -12,6 +17,7 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">Save</button>
+            <a {% if mode == 'create' %} href="{% url account_list %}" {% else %} href="{% url account_detail account.pk %}" {% endif %} class="btn btn-primary">Cancel</a>
         </div>
     </div>
 </form>

@@ -12,6 +12,7 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">Save</button>
+            <a {% if mode == 'update' %} href="{% url transaction_detail transaction.pk %}" {% else %} href="{% url account_detail account.pk %}" {% endif %} class="btn btn-primary">Cancel</a>
         </div>
     </div>
 </form>
