@@ -81,7 +81,7 @@ def account_create(request, *args, **kargs):
 
 	# Update the CSRF token
 	kargs.update(csrf(request))
-	context = RequestContext(request, dict(section="accounts",
+	context = RequestContext(request, dict(section="accounts", mode = "create",
 		form=account_form, **kargs))
 	return render_to_response("accounts/form.html", context)
 
@@ -113,5 +113,5 @@ def account_update(request, account_id, *args, **kargs):
 	# Pass back the form we have, after updating CSRF
 	kargs.update(csrf(request))
 	context = RequestContext(request, dict(section="accounts",
-		form=account_form, **kargs))
+		form=account_form, mode="update", account=account, **kargs))
 	return render_to_response("accounts/form.html", context)

@@ -60,6 +60,7 @@ def transaction_create(request, account_id, *args, **kargs):
 	context = RequestContext(request, dict(section="accounts",
 		account=from_acct,
 		form=transaction_form,
+		mode='create',
 		**kargs))
 	return render_to_response("transactions/form.html", context)
 
@@ -93,5 +94,7 @@ def transaction_update(request, transaction_id, *args, **kargs):
 	context = RequestContext(request, dict(section="accounts",
 		account=transaction.from_acct,
 		form=transaction_form,
+		transaction=transaction,
+		mode='update',
 		**kargs))
 	return render_to_response("transactions/form.html", context)
