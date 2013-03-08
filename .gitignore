@@ -1,6 +1,12 @@
-settings.py
+# Python cruft (objects, compiled bytecode)
 *.pyc
-*.db
 
-# Virtual environment forlder
+# Django cruft
+settings.py
+
+# Database cruft
+*.db
+*.db-journal
+
+# Virtual environment folder
 venv

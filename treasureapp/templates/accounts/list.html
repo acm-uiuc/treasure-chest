@@ -24,7 +24,17 @@
                     {{ account.name }}
                 </a>
             </td>
-            <td>{{ account.balance }}</td>
+            <td>
+                {% if account.balance < 0 %}
+                    <div class="neg_balance">
+                {% endif %}
+
+                {{ account.balance }}
+
+                {% if account.balance < 0 %}
+                    </div>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

@@ -16,6 +16,9 @@ class Account(models.Model):
 	name - A name for the account
 	description - An optional memo for the account
 	balance - Cached balance for the account
+	accessors - People who can edit the account
+	created_on - Time the account was created
+	updated_on - Last update time for the account
 	"""
 
 	name = models.CharField(max_length = 200)
@@ -24,6 +27,13 @@ class Account(models.Model):
 			blank=True)
 
 	accessors = models.ManyToManyField(AccountGroup)
+
+	created_on = models.DateTimeField(auto_now_add=True, editable=False)
+	updated_on = models.DateTimeField(auto_now=True, editable=False)
+
+	class Meta:
+		# Default to returning accounts in alphabetical order
+		ordering = ['name']
 
 	def __unicode__(self):
 		"""
@@ -77,12 +87,21 @@ class Transaction(models.Model):
 	to_acct - The account the transaction is going into
 	amount - Change in account balance
 	description - An optional description of the transaction
+	created_on - The date/time transaction was created
+	updated_on - The date/time transaction was last updated
 	"""
 
 	from_acct = models.ForeignKey(Account, related_name='from_acct')
 	to_acct = models.ForeignKey(Account, related_name='to_acct')
 	amount = models.DecimalField(max_digits = 10, decimal_places = 2)
 	description = models.TextField(blank=True)
+
+	created_on = models.DateTimeField(auto_now_add=True, editable=False)
+	updated_on = models.DateTimeField(auto_now=True, editable=False)
+
+	class Meta:
+		# Default to sorting transactions by decending creation date
+		ordering = ['-created_on']
 
 	def __unicode__(self):
 		"""
