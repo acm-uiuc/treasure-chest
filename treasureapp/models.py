@@ -31,6 +31,10 @@ class Account(models.Model):
 	created_on = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_on = models.DateTimeField(auto_now=True, editable=False)
 
+	class Meta:
+		# Default to returning accounts in alphabetical order
+		ordering = ['name']
+
 	def __unicode__(self):
 		"""
 		Return a unicode representation of an account object.
@@ -94,6 +98,10 @@ class Transaction(models.Model):
 
 	created_on = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_on = models.DateTimeField(auto_now=True, editable=False)
+
+	class Meta:
+		# Default to sorting transactions by decending creation date
+		ordering = ['-created_on']
 
 	def __unicode__(self):
 		"""
