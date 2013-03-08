@@ -8,11 +8,10 @@
 
 <h2>Member List</h2><br>
 <table class="table table-striped">
-{% i = 0 %}
+
 {% for member in members %}
 	<tr>
-		{% i++ %}
-		<td> {{ i }} </td>
+		<td> {{ forloop.counter }} </td>
 		<td> {{ member.username }} </td>
 	</tr>
 {% endfor %}
