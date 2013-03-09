@@ -26,6 +26,7 @@
             <th>From Account</th>
             <th>To Account</th>
             <th>Amount</th>
+            <th>Date Created</th>
             <th>Details</th>
         </tr>
     </thead>
@@ -36,6 +37,7 @@
             <td>{{ transaction.from_acct }}</td>
             <td>{{ transaction.to_acct }}</td>
             <td>{{ transaction.amount }}</td>
+            <td>{{ transaction.created_on }}</td>
             <td>
                 <a href="{% url transaction_detail transaction.pk %}">
                     View Details
