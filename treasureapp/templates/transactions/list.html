@@ -20,7 +20,7 @@
 
     <tbody>
         {% for transaction in transaction_list %}
-        <tr>
+        <tr {% if (transaction.amount < 0) %} class = "success" {% else %} class = "error" {% endif %}  >
             <td>{{ transaction.from_acct }}</td>
             <td>{{ transaction.to_acct }}</td>
             <td>{{ transaction.amount }}</td>

@@ -61,7 +61,7 @@ def group_create(request, *args, **kwargs):
 	# Update the CSRF token
 	kwargs.update(csrf(request))
 	context = RequestContext(request, dict(section="groups",
-		form=group_form, **kwargs))
+		form=group_form, mode="create", **kwargs))
 	return render_to_response("groups/form.html", context)
 
 @login_required
@@ -89,5 +89,5 @@ def group_update(request, group_id, *args, **kwargs):
 	# Update the CSRF token
 	kwargs.update(csrf(request))
 	context = RequestContext(request, dict(section="groups",
-		form=group_form, **kwargs))
+		form=group_form, group=group, mode="update", **kwargs))
 	return render_to_response("groups/form.html", context)

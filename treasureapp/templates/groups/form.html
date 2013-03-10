@@ -12,7 +12,7 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">Save</button>
-	    <a class="btn btn-primary" href="{% url group_manager %}">Cancel</a>
+	    <a class="btn btn-primary" {% if mode == "update" %} href="{% url group_detail group.pk %}" {% else %} href="{% url group_manager %}" {% endif %}>Cancel</a>
         </div>
     </div>
 </form>

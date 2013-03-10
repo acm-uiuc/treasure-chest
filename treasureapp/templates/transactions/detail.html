@@ -34,6 +34,9 @@
 <a href="{% url transaction_update transaction.pk %}" class="btn btn-primary btn-large">
     Update this transaction
 </a>
+<a href="{% url account_detail transaction.from_acct.pk %}" class="btn btn-primary btn-large">
+    Back to account
+</a>
 </p>
 
 {% endblock %}
